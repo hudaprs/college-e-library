@@ -1,0 +1,5 @@
+import type { Request, Response } from 'express'
+
+export const index = async (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Role List' })
+}

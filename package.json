@@ -1,0 +1,30 @@
+{
+	"name": "e-library",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "concurrently \"cd ./server && bun run dev\"",
+		"prepare": "husky"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@commitlint/cli": "^19.7.1",
+		"@commitlint/config-conventional": "^19.7.1",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.4.3",
+		"prettier": "^3.5.2",
+		"tsconfig-paths": "^4.2.0"
+	},
+	"lint-staged": {
+		"**/*.{js,jsx,ts,tsx}": [
+			"cd ./server && eslint --max-warnings=0",
+			"cd ./server && prettier --write --config ./.prettierrc"
+		],
+		"**/*.{html,json,css,scss,md,mdx}": [
+			"prettier -w"
+		]
+	}
+}
