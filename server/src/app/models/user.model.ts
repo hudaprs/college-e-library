@@ -6,6 +6,7 @@ export interface UserBuildAttrs {
   name: string
   email: string
   password?: string
+  isUserVerified?: boolean
   roles?: UserRole[]
 }
 

@@ -1,3 +1,4 @@
+import type mongoose from 'mongoose'
 import type { PermissionCode, PermissionGroup } from './permission.type'
 
 export type RolePermission = {
@@ -6,10 +7,9 @@ export type RolePermission = {
 }
 
 export type Role = {
-  id: string
+  id: mongoose.Types.ObjectId
   name: string
   permissions: RolePermission[]
-  createdBy: string
   createdAt: string
   updatedAt: string
 }

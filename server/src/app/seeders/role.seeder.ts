@@ -4,26 +4,45 @@ dotenv.config({
 })
 import mongoose from 'mongoose'
 import { Permission } from '@/app/models/permission.model'
-import { Role, type RoleDocument } from '@/app/models/role.model'
+import { Role, type RoleBuildAttrs } from '@/app/models/role.model'
+import { PermissionCode, PermissionGroup } from '../types/permission.type'
 
 mongoose
   .connect(process.env.DB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err))
 
-const permissions = await Permission.find()
+const allPermissions = await Permission.find()
+const systemPermissions = await Permission.find({
+  group: PermissionGroup.SYSTEM
+})
 
-const roles: Partial<RoleDocument>[] = [
+const roles: RoleBuildAttrs[] = [
   {
     name: 'Super Admin',
-    permissions: permissions.map(permission => ({
-      code: permission.code,
-      group: permission.group
-    }))
+    permissions: allPermissions
   },
   {
     name: 'Common',
     permissions: []
+  },
+  {
+    name: 'System Manager',
+    permissions: systemPermissions.filter(
+      permission =>
+        permission.code !== PermissionCode.ADMIN_SYSTEM &&
+        !permission.code.includes('staff')
+    )
+  },
+  {
+    name: 'System Admin',
+    permissions: systemPermissions
+  },
+  {
+    name: 'Staff',
+    permissions: systemPermissions.filter(permission =>
+      permission.code.toLowerCase().includes('staff')
+    )
   }
 ]
 

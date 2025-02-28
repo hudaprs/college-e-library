@@ -41,7 +41,7 @@ export const store = async (req: Request, res: Response) => {
     permissions: body.permissions
   }).save()
 
-  res.status(200).json({
+  res.status(201).json({
     message: 'Successfully create role',
     results: role
   })

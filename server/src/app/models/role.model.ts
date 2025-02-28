@@ -6,7 +6,7 @@ import {
 } from '@/app/types/permission.type'
 import type { RolePermission, Role as TRole } from '@/app/types/role.type'
 
-interface RoleBuildAttrs {
+export interface RoleBuildAttrs {
   name: string
   permissions: RolePermission[]
 }

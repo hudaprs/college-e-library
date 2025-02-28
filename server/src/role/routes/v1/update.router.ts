@@ -4,13 +4,14 @@ import { ValidationService } from '@/app/services/validation.service'
 import { Permission } from '@/app/models/permission.model'
 import { updateSchema } from '@/role/schemas/v1/update.schema'
 import { PermissionCode } from '@/app/types/permission.type'
+import mongoose from 'mongoose'
 
 export const update = async (req: Request, res: Response) => {
   await ValidationService.hasPermissions(req.currentUser.id, [
     PermissionCode.UPDATE_ROLE
   ])
 
-  const { id } = req.params
+  const id = new mongoose.Types.ObjectId(req.params.id)
   const body = await ValidationService.validateBodyRequest(
     req.body,
     updateSchema

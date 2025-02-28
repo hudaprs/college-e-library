@@ -1,4 +1,5 @@
 import type { JwtPayload } from 'jsonwebtoken'
+import type mongoose from 'mongoose'
 
 declare global {
   namespace NodeJS {
@@ -18,7 +19,7 @@ declare global {
 declare global {
   namespace Express {
     interface Request {
-      currentUser: JwtPayload & { id: string }
+      currentUser: JwtPayload & { id: mongoose.Types.ObjectId }
     }
   }
 }

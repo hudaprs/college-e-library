@@ -1,3 +1,5 @@
+import type mongoose from 'mongoose'
+
 export enum JwtSignType {
   LOGIN = 'Login',
   REFRESH_TOKEN = 'RefreshToken',
@@ -6,7 +8,7 @@ export enum JwtSignType {
 }
 
 export type JwtDecode = {
-  id: string
+  id: mongoose.Types.ObjectId
   otp?: string
   isMobile?: boolean
 }

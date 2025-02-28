@@ -8,6 +8,7 @@ import { JwtSignType } from '@/app/types/jwt.type'
 import type { PermissionCode } from '@/app/types/permission.type'
 import { Permission } from '@/app/models/permission.model'
 import type { RolePermission } from '../types/role.type'
+import mongoose from 'mongoose'
 
 type CauseError = {
   statusCode?: number
@@ -120,7 +121,7 @@ export class ValidationService {
               statusCode: 401
             }
           })
-        req.currentUser = user
+        req.currentUser = { ...user, id: new mongoose.Types.ObjectId(user.id) }
       }
     } catch (err) {
       // Handle JWT Error Expired
@@ -157,13 +158,20 @@ export class ValidationService {
   }
 
   public static async hasPermissions(
-    userId: string,
+    userId: mongoose.Types.ObjectId,
     selectedPermissions: PermissionCode[]
   ) {
     const user = await User.findById(userId).populate('roles.role')
 
     if (!user)
       throw new Error('User not found when checking permission', {
+        cause: {
+          statusCode: 400
+        }
+      })
+
+    if (!user?.isUserVerified)
+      throw new Error('User not verified', {
         cause: {
           statusCode: 400
         }
@@ -235,5 +243,25 @@ export class ValidationService {
         }
       })
     }
+  }
+
+  public static async hasPermissionSync(
+    userId: mongoose.Types.ObjectId,
+    selectedPermissions: PermissionCode[]
+  ) {
+    const user = await User.findById(userId).populate('roles.role')
+
+    const userRoles = user?.roles || []
+
+    const activeRolePermissions =
+      (
+        userRoles.find(role => role.isActive)?.role as {
+          permissions?: RolePermission[]
+        }
+      )?.permissions || []
+
+    return activeRolePermissions.some(permission =>
+      selectedPermissions.includes(permission.code)
+    )
   }
 }

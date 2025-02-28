@@ -48,7 +48,7 @@ export const store = async (req: Request, res: Response) => {
 
   const fullUser = await user.populate('roles.role')
 
-  res.status(200).json({
+  res.status(201).json({
     message: 'Successfully create user',
     results: fullUser
   })

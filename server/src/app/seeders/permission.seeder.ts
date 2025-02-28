@@ -5,7 +5,7 @@ dotenv.config({
 import mongoose from 'mongoose'
 import {
   Permission,
-  type PermissionDocument
+  type PermissionBuildAttrs
 } from '@/app/models/permission.model'
 import { PermissionCode, PermissionGroup } from '@/app/types/permission.type'
 
@@ -14,7 +14,7 @@ mongoose
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err))
 
-const permissions: Partial<PermissionDocument>[] = [
+const permissions: PermissionBuildAttrs[] = [
   {
     code: PermissionCode.VIEW_USER,
     group: PermissionGroup.USER
@@ -50,6 +50,42 @@ const permissions: Partial<PermissionDocument>[] = [
   {
     code: PermissionCode.DELETE_ROLE,
     group: PermissionGroup.ROLE
+  },
+  {
+    code: PermissionCode.VIEW_SYSTEM,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.CREATE_SYSTEM,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.UPDATE_SYSTEM,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.DELETE_SYSTEM,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.ADMIN_SYSTEM,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.VIEW_SYSTEM_STAFF,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.CREATE_SYSTEM_STAFF,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.UPDATE_SYSTEM_STAFF,
+    group: PermissionGroup.SYSTEM
+  },
+  {
+    code: PermissionCode.DELETE_SYSTEM_STAFF,
+    group: PermissionGroup.SYSTEM
   }
 ]
 
