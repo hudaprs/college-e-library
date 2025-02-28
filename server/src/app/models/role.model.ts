@@ -1,11 +1,14 @@
 import mongoose from 'mongoose'
-import type { Permission } from '@/app/types/permission.type'
-import type { Role as TRole } from '@/app/types/role.type'
+import {
+  type Permission,
+  PermissionCode,
+  PermissionGroup
+} from '@/app/types/permission.type'
+import type { RolePermission, Role as TRole } from '@/app/types/role.type'
 
 interface RoleBuildAttrs {
   name: string
-  createdBy: string
-  permissions: Partial<Permission>[]
+  permissions: RolePermission[]
 }
 
 export type RoleDocument = mongoose.Document & TRole
@@ -24,19 +27,16 @@ const roleSchema = new mongoose.Schema(
       {
         code: {
           type: String,
+          enum: Object.values(PermissionCode),
           required: true
         },
         group: {
           type: String,
+          enum: Object.values(PermissionGroup),
           required: true
         }
       }
-    ],
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User'
-    }
+    ]
   },
   {
     toJSON: {

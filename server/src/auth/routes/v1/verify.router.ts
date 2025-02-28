@@ -1,4 +1,4 @@
-import { verifySchema } from '@/app/schemas/v1/auth/verify.schema'
+import { verifySchema } from '@/auth/schemas/v1/verify.schema'
 import { ValidationService } from '@/app/services/validation.service'
 import type { Request, Response } from 'express'
 import { Token } from '@/app/models/token.model'

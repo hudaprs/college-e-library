@@ -13,7 +13,6 @@ export const index = async (req: Request, res: Response) => {
     .limit(limit)
     .skip((page - 1) * limit)
     .sort({ createdAt: -1, _id: 1 })
-    .populate('createdBy')
   const count = await Role.countDocuments(filter)
 
   res.status(200).json({

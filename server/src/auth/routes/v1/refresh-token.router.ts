@@ -3,7 +3,7 @@ import { generateToken, verify } from '@/app/utils/jwt.util'
 import { JwtSignType } from '@/app/types/jwt.type'
 import { User } from '@/app/models/user.model'
 import { ValidationService } from '@/app/services/validation.service'
-import { refreshTokenSchema } from '@/app/schemas/v1/auth/refresh-token.schema'
+import { refreshTokenSchema } from '@/auth/schemas/v1/refresh-token.schema'
 
 export const refreshToken = async (req: Request, res: Response) => {
   const { refreshToken } = await ValidationService.validateBodyRequest(

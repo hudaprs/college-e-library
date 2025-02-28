@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 import { Role } from '@/app/models/role.model'
 import { ValidationService } from '@/app/services/validation.service'
-import { storeSchema } from '@/app/schemas/role/v1/store.schema'
+import { storeSchema } from '@/role/schemas/v1/store.schema'
 import { Permission } from '@/app/models/permission.model'
 
 export const store = async (req: Request, res: Response) => {
@@ -33,14 +33,11 @@ export const store = async (req: Request, res: Response) => {
 
   const role = await Role.build({
     name: body.name,
-    createdBy: req.currentUser.id,
     permissions: body.permissions
   }).save()
 
-  const fullRole = await role.populate('createdBy')
-
   res.status(200).json({
     message: 'Successfully create role',
-    results: fullRole
+    results: role
   })
 }

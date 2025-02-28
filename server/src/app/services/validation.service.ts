@@ -171,7 +171,7 @@ export class ValidationService {
     const permissions = await Permission.find()
 
     if (permissions.length === 0)
-      throw new Error('No permission exists from system', {
+      throw new Error('No permission exists inside system', {
         cause: {
           statusCode: 400
         }

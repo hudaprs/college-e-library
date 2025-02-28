@@ -1,9 +1,14 @@
-import type { Permission } from './permission.type'
+import type { PermissionCode, PermissionGroup } from './permission.type'
+
+export type RolePermission = {
+  code: PermissionCode
+  group: PermissionGroup
+}
 
 export type Role = {
   id: string
   name: string
-  permissions: Permission[]
+  permissions: RolePermission[]
   createdBy: string
   createdAt: string
   updatedAt: string

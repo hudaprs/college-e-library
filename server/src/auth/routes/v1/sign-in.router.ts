@@ -3,7 +3,7 @@ import type { Request, Response } from 'express'
 import { User } from '@/app/models/user.model'
 import { MailService } from '@/app/services/mail.service'
 import { JwtSignType } from '@/app/types/jwt.type'
-import { signInSchema } from '@/app/schemas/v1/auth/sign-in.schema'
+import { signInSchema } from '@/auth/schemas/v1/sign-in.schema'
 import bcrypt from 'bcryptjs'
 import { generateToken } from '@/app/utils/jwt.util'
 

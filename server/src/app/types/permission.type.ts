@@ -1,11 +1,3 @@
-export type Permission = {
-  id: string
-  code: string
-  group: string
-  createdAt: string
-  updatedAt: string
-}
-
 export enum PermissionCode {
   VIEW_USER = 'view:user',
   CREATE_USER = 'create:user',
@@ -22,4 +14,12 @@ export enum PermissionGroup {
   USER = 'user',
   PERMISSION = 'permission',
   ROLE = 'role'
+}
+
+export type Permission = {
+  id: string
+  code: PermissionCode
+  group: PermissionGroup
+  createdAt: string
+  updatedAt: string
 }

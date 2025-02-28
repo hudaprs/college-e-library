@@ -9,7 +9,7 @@ export const me = async (req: Request, res: Response) => {
       }
     })
 
-  const user = await User.findById(req.currentUser.id)
+  const user = await User.findById(req.currentUser.id).populate('roles.role')
 
   if (!user)
     throw new Error('Unauthorized account', {

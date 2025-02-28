@@ -13,9 +13,7 @@ export const destroy = async (req: Request, res: Response) => {
       }
     })
 
-  const deletedRole = await Role.findByIdAndDelete(role.id).populate(
-    'createdBy'
-  )
+  const deletedRole = await Role.findByIdAndDelete(role.id)
 
   res.status(200).json({
     message: 'Successfully delete role',

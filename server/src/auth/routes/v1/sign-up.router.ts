@@ -1,6 +1,6 @@
 import { ValidationService } from '@/app/services/validation.service'
 import type { Request, Response } from 'express'
-import { signUpSchema } from '@/app/schemas/v1/auth/sign-up.schema'
+import { signUpSchema } from '@/auth/schemas/v1/sign-up.schema'
 import { User } from '@/app/models/user.model'
 import { MailService } from '@/app/services/mail.service'
 import { JwtSignType } from '@/app/types/jwt.type'

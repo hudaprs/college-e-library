@@ -13,7 +13,9 @@ export const destroy = async (req: Request, res: Response) => {
       }
     })
 
-  const deletedUser = await User.findByIdAndDelete(user.id).populate('roles')
+  const deletedUser = await User.findByIdAndDelete(user.id).populate(
+    'roles.role'
+  )
 
   res.status(200).json({
     message: 'Successfully delete user',

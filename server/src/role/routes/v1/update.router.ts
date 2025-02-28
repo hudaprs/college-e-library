@@ -2,7 +2,7 @@ import type { Request, Response } from 'express'
 import { Role } from '@/app/models/role.model'
 import { ValidationService } from '@/app/services/validation.service'
 import { Permission } from '@/app/models/permission.model'
-import { updateSchema } from '@/app/schemas/role/v1/update.schema'
+import { updateSchema } from '@/role/schemas/v1/update.schema'
 
 export const update = async (req: Request, res: Response) => {
   const { id } = req.params
@@ -51,7 +51,7 @@ export const update = async (req: Request, res: Response) => {
     {
       new: true
     }
-  ).populate('createdBy')
+  )
 
   res.status(200).json({
     message: 'Successfully update role',

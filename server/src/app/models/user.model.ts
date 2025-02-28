@@ -1,26 +1,15 @@
 import mongoose from 'mongoose'
 import { hashPassword } from '@/app/utils/common.util'
+import type { User as TUser, UserRole } from '@/app/types/user.type'
 
 export interface UserBuildAttrs {
   name: string
   email: string
-  password: string
-  roles?: {
-    isActive: boolean
-    roleId: string
-  }[]
+  password?: string
+  roles?: UserRole[]
 }
 
-export interface UserDocument extends mongoose.Document {
-  name: string
-  email: string
-  password: string
-  isUserVerified: boolean
-  roles: {
-    isActive: boolean
-    roleId: string
-  }[]
-}
+export type UserDocument = mongoose.Document & TUser
 
 interface UserModel extends mongoose.Model<UserDocument> {
   build: (attrs: UserBuildAttrs) => UserDocument
@@ -47,7 +36,7 @@ const userSchema = new mongoose.Schema(
     },
     roles: [
       {
-        roleId: {
+        role: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Role'
@@ -63,6 +52,10 @@ const userSchema = new mongoose.Schema(
     toJSON: {
       transform: (doc, ret) => {
         ret.id = doc._id
+        ret.roles = ret.roles.map((role: UserRole) => ({
+          role: role.role,
+          isActive: role.isActive
+        }))
         delete ret._id
         delete ret.__v
         delete ret.password
@@ -71,6 +64,11 @@ const userSchema = new mongoose.Schema(
     timestamps: true
   }
 )
+
+userSchema.index({
+  name: 'text',
+  email: 'text'
+})
 
 userSchema.statics.build = (attrs: UserBuildAttrs) => {
   return new User(attrs)

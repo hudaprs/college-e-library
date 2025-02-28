@@ -2,7 +2,7 @@ import type { Request, Response } from 'express'
 import { JwtSignType } from '@/app/types/jwt.type'
 import { User } from '@/app/models/user.model'
 import { ValidationService } from '@/app/services/validation.service'
-import { forgotPasswordSchema } from '@/app/schemas/v1/auth/forgot-password.schema'
+import { forgotPasswordSchema } from '@/auth/schemas/v1/forgot-password.schema'
 import { MailService } from '@/app/services/mail.service'
 
 export const forgotPassword = async (req: Request, res: Response) => {

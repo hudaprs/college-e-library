@@ -4,7 +4,7 @@ import { Role } from '@/app/models/role.model'
 export const show = async (req: Request, res: Response) => {
   const { id } = req.params
 
-  const role = await Role.findById(id).populate('createdBy')
+  const role = await Role.findById(id)
 
   if (!role)
     throw new Error('Role not found', {

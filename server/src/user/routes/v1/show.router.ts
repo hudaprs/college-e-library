@@ -4,7 +4,7 @@ import { User } from '@/app/models/user.model'
 export const show = async (req: Request, res: Response) => {
   const { id } = req.params
 
-  const user = await User.findById(id).populate('users')
+  const user = await User.findById(id).populate('roles.role')
 
   if (!user)
     throw new Error('User not found', {

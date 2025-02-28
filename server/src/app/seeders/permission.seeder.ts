@@ -57,7 +57,7 @@ const seedPermissions = async () => {
   try {
     await Permission.deleteMany()
     await Permission.insertMany(permissions)
-    console.log('Permission seeded successfully!')
+    console.log('Permissions seeded successfully!')
     mongoose.connection.close()
   } catch (error) {
     console.error(error)
