@@ -5,13 +5,18 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"cd ./server && bun run dev\"",
-    "seed:all": "cd ./server/src/app/seeders/ && bun run permission.seeder.ts && bun run role.seeder.ts && bun run user.seeder.ts"
+    "seed:all": "cd ./server/src/app/seeders/ && bun run permission.seeder.ts && bun run role.seeder.ts && bun run user.seeder.ts",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@types/bun": "latest",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "prettier": "^3.5.2"
   },
   "peerDependencies": {

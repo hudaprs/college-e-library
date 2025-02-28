@@ -1,3 +1,7 @@
+import type {
+  PermissionCode,
+  PermissionGroup
+} from '@/app/types/permission.type'
 import * as yup from 'yup'
 
 export const storeSchema = yup.object().shape({
@@ -7,8 +11,8 @@ export const storeSchema = yup.object().shape({
       yup
         .object()
         .shape({
-          code: yup.string().required(),
-          group: yup.string().required()
+          code: yup.mixed<PermissionCode>().required(),
+          group: yup.mixed<PermissionGroup>().required()
         })
         .required()
     )

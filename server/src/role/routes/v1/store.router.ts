@@ -3,8 +3,13 @@ import { Role } from '@/app/models/role.model'
 import { ValidationService } from '@/app/services/validation.service'
 import { storeSchema } from '@/role/schemas/v1/store.schema'
 import { Permission } from '@/app/models/permission.model'
+import { PermissionCode } from '@/app/types/permission.type'
 
 export const store = async (req: Request, res: Response) => {
+  await ValidationService.hasPermissions(req.currentUser.id, [
+    PermissionCode.CREATE_ROLE
+  ])
+
   const body = await ValidationService.validateBodyRequest(
     req.body,
     storeSchema

@@ -7,6 +7,7 @@ import type { JwtDecode } from '@/app/types/jwt.type'
 import { JwtSignType } from '@/app/types/jwt.type'
 import type { PermissionCode } from '@/app/types/permission.type'
 import { Permission } from '@/app/models/permission.model'
+import type { RolePermission } from '../types/role.type'
 
 type CauseError = {
   statusCode?: number
@@ -159,10 +160,17 @@ export class ValidationService {
     userId: string,
     selectedPermissions: PermissionCode[]
   ) {
-    const user = await User.findById(userId)
+    const user = await User.findById(userId).populate('roles.role')
 
     if (!user)
       throw new Error('User not found when checking permission', {
+        cause: {
+          statusCode: 400
+        }
+      })
+
+    if (user.roles.length === 0)
+      throw new Error(`User doesn't have role attached`, {
         cause: {
           statusCode: 400
         }
@@ -192,8 +200,40 @@ export class ValidationService {
       })
     }
 
-    return permissions.some(permission =>
-      selectedPermissions.includes(permission.code)
-    )
+    const userRoles = user.roles
+
+    if (!userRoles.some(userRole => userRole.isActive))
+      throw new Error(`User doesn't have active role`, {
+        cause: {
+          statusCode: 400
+        }
+      })
+
+    const activeRolePermissions =
+      (
+        userRoles.find(role => role.isActive)?.role as {
+          permissions?: RolePermission[]
+        }
+      )?.permissions || []
+
+    if (activeRolePermissions.length === 0) {
+      throw new Error(`You don't have permissions`, {
+        cause: {
+          statusCode: 403
+        }
+      })
+    }
+
+    if (
+      !activeRolePermissions.some(permission =>
+        selectedPermissions.includes(permission.code)
+      )
+    ) {
+      throw new Error(`You don't have access`, {
+        cause: {
+          statusCode: 403
+        }
+      })
+    }
   }
 }

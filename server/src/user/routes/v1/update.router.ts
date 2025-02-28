@@ -3,8 +3,13 @@ import { User, type UserBuildAttrs } from '@/app/models/user.model'
 import { ValidationService } from '@/app/services/validation.service'
 import { updateSchema } from '@/user/schemas/v1/update.schema'
 import { Role } from '@/app/models/role.model'
+import { PermissionCode } from '@/app/types/permission.type'
 
 export const update = async (req: Request, res: Response) => {
+  await ValidationService.hasPermissions(req.currentUser.id, [
+    PermissionCode.UPDATE_USER
+  ])
+
   const { id } = req.params
   const body = await ValidationService.validateBodyRequest(
     req.body,
