@@ -5,6 +5,10 @@ export interface UserBuildAttrs {
   name: string
   email: string
   password: string
+  roles?: {
+    isActive: boolean
+    roleId: string
+  }[]
 }
 
 export interface UserDocument extends mongoose.Document {
@@ -12,6 +16,10 @@ export interface UserDocument extends mongoose.Document {
   email: string
   password: string
   isUserVerified: boolean
+  roles: {
+    isActive: boolean
+    roleId: string
+  }[]
 }
 
 interface UserModel extends mongoose.Model<UserDocument> {
@@ -26,7 +34,8 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     password: {
       type: String,
@@ -35,7 +44,20 @@ const userSchema = new mongoose.Schema(
     isUserVerified: {
       type: Boolean,
       default: false
-    }
+    },
+    roles: [
+      {
+        roleId: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Role'
+        },
+        isActive: {
+          type: Boolean,
+          default: false
+        }
+      }
+    ]
   },
   {
     toJSON: {

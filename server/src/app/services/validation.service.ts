@@ -5,9 +5,12 @@ import { User } from '@/app/models/user.model'
 import { verify } from '@/app/utils/jwt.util'
 import type { JwtDecode } from '@/app/types/jwt.type'
 import { JwtSignType } from '@/app/types/jwt.type'
+import type { PermissionCode } from '@/app/types/permission.type'
+import { Permission } from '@/app/models/permission.model'
 
 type CauseError = {
   statusCode?: number
+  errors?: { message: string }[]
   stackTrace?: unknown
 }
 
@@ -40,6 +43,7 @@ export class ValidationService {
       if (cause && cause?.statusCode) {
         res.status(cause.statusCode).json({
           message: err.message,
+          errors: cause?.errors || [],
           stackTrace: cause?.stackTrace || err?.stack
         })
 
@@ -149,5 +153,47 @@ export class ValidationService {
     }
 
     next()
+  }
+
+  public static async hasPermissions(
+    userId: string,
+    selectedPermissions: PermissionCode[]
+  ) {
+    const user = await User.findById(userId)
+
+    if (!user)
+      throw new Error('User not found when checking permission', {
+        cause: {
+          statusCode: 400
+        }
+      })
+
+    const permissions = await Permission.find()
+
+    if (permissions.length === 0)
+      throw new Error('No permission exists from system', {
+        cause: {
+          statusCode: 400
+        }
+      })
+
+    const unRegisteredPermissionCodes = selectedPermissions.filter(
+      permissionCode =>
+        !permissions.some(permission => permission.code === permissionCode)
+    )
+    if (unRegisteredPermissionCodes.length > 0) {
+      throw new Error('Validation Error', {
+        cause: {
+          statusCode: 400,
+          errors: unRegisteredPermissionCodes.map(permissionCode => ({
+            message: `Permission ${permissionCode} doesn't exists`
+          }))
+        }
+      })
+    }
+
+    return permissions.some(permission =>
+      selectedPermissions.includes(permission.code)
+    )
   }
 }

@@ -1,41 +1,38 @@
 import mongoose from 'mongoose'
-import { JwtSignType } from '@/app/types/jwt.type'
+import type { Permission } from '@/app/types/permission.type'
+import type { Role as TRole } from '@/app/types/role.type'
 
-interface TokenBuildAttrs {
-  token: string
-  usedAt?: Date
-  userId: string
-  type: JwtSignType
+interface RoleBuildAttrs {
+  name: string
+  createdBy: string
+  permissions: Partial<Permission>[]
 }
 
-export interface TokenDocument extends mongoose.Document {
-  token: string
-  usedAt?: Date
-  userId: string
-  type: JwtSignType
-  createdAt: Date
-  updatedAt: Date
+export type RoleDocument = mongoose.Document & TRole
+
+interface RoleModel extends mongoose.Model<RoleDocument> {
+  build: (attrs: RoleBuildAttrs) => RoleDocument
 }
 
-interface TokenModel extends mongoose.Model<TokenDocument> {
-  build: (attrs: TokenBuildAttrs) => TokenDocument
-}
-
-const tokenSchema = new mongoose.Schema(
+const roleSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true
     },
-    usedAt: {
-      type: Date
-    },
-    type: {
-      type: String,
-      enum: JwtSignType,
-      required: true
-    },
-    userId: {
+    permissions: [
+      {
+        code: {
+          type: String,
+          required: true
+        },
+        group: {
+          type: String,
+          required: true
+        }
+      }
+    ],
+    createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User'
@@ -45,6 +42,10 @@ const tokenSchema = new mongoose.Schema(
     toJSON: {
       transform: (doc, ret) => {
         ret.id = doc._id
+        ret.permissions = ret.permissions.map((permission: Permission) => ({
+          code: permission.code,
+          group: permission.group
+        }))
         delete ret._id
         delete ret.__v
       }
@@ -53,10 +54,14 @@ const tokenSchema = new mongoose.Schema(
   }
 )
 
-tokenSchema.statics.build = (attrs: TokenBuildAttrs) => {
-  return new Token(attrs)
+roleSchema.index({
+  name: 'text'
+})
+
+roleSchema.statics.build = (attrs: RoleBuildAttrs) => {
+  return new Role(attrs)
 }
 
-const Token = mongoose.model<TokenDocument, TokenModel>('Token', tokenSchema)
+const Role = mongoose.model<RoleDocument, RoleModel>('Role', roleSchema)
 
-export { Token }
+export { Role }

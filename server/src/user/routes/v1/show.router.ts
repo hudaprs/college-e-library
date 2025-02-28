@@ -1,20 +1,20 @@
 import type { Request, Response } from 'express'
-import { Role } from '@/app/models/role.model'
+import { User } from '@/app/models/user.model'
 
 export const show = async (req: Request, res: Response) => {
   const { id } = req.params
 
-  const role = await Role.findById(id).populate('createdBy')
+  const user = await User.findById(id).populate('users')
 
-  if (!role)
-    throw new Error('Role not found', {
+  if (!user)
+    throw new Error('User not found', {
       cause: {
         statusCode: 404
       }
     })
 
   res.status(200).json({
-    message: 'Successfully get role detail',
-    results: role
+    message: 'Successfully get user detail',
+    results: user
   })
 }

@@ -5,7 +5,7 @@ export class DatabaseService {
   private static filename = 'database.service.ts'
 
   public static async connect() {
-    await mongoose.connect(process.env.DB_HOST)
+    await mongoose.connect(process.env.DB_URI)
     logger.info(`${this.filename} Connected to MongoDb`)
   }
 }

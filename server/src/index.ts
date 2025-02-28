@@ -16,7 +16,7 @@ const start = async () => {
     throw new Error('SMTP_TO_EMAIL must be defined')
   if (!process.env.SMTP_TO_PASSWORD)
     throw new Error('SMTP_TO_PASSWORD must be defined')
-  if (!process.env.DB_HOST) throw new Error('DB_HOST must be defined')
+  if (!process.env.DB_URI) throw new Error('DB_URI must be defined')
 
   try {
     await DatabaseService.connect()

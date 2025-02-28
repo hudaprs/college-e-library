@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { Role } from '@/app/models/role.model'
+import { Permission } from '@/app/models/permission.model'
 import type { BaseQueryParams } from '@/app/types/query.type'
 
 export const index = async (req: Request, res: Response) => {
@@ -9,17 +9,16 @@ export const index = async (req: Request, res: Response) => {
 
   const filter = q ? { $text: { $search: q } } : {}
 
-  const roles = await Role.find(filter)
+  const permissions = await Permission.find(filter)
     .limit(limit)
     .skip((page - 1) * limit)
     .sort({ createdAt: -1, _id: 1 })
-    .populate('createdBy')
-  const count = await Role.countDocuments(filter)
+  const count = await Permission.countDocuments(filter)
 
   res.status(200).json({
-    message: 'Successfully get role list',
+    message: 'Successfully get permission list',
     results: {
-      data: roles,
+      data: permissions,
       count,
       totalPages: Math.ceil(count / limit)
     }

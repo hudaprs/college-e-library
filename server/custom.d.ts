@@ -10,7 +10,7 @@ declare global {
       JWT_VERIFY_FORGOT_PASSWORD_SECRET: string
       SMTP_TO_EMAIL: string
       SMTP_TO_PASSWORD: string
-      DB_HOST: string
+      DB_URI: string
     }
   }
 }
@@ -18,7 +18,7 @@ declare global {
 declare global {
   namespace Express {
     interface Request {
-      currentUser?: JwtPayload & { id: string }
+      currentUser: JwtPayload & { id: string }
     }
   }
 }
