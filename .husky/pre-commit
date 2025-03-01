@@ -1,1 +1,1 @@
-cd ./server && npx lint-staged
+cd ./server && npx lint-staged && cd ../ && cd ./client && npx lint-staged

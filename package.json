@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"cd ./server && bun run dev\"",
+    "dev": "concurrently \"cd ./server && bun run dev\" \"cd ./client && bun run dev\"",
     "seed:all": "cd ./server/src/app/seeders/ && bun run permission.seeder.ts && bun run role.seeder.ts && bun run user.seeder.ts && bun run system.seeder.ts",
     "prepare": "husky"
   },

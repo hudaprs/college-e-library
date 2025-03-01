@@ -44,11 +44,11 @@
     "yup": "^1.6.1"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "eslint --max-warnings=0",
       "prettier --write --config ./.prettierrc"
     ],
-    "*.{html,json,css,scss,md,mdx}": [
+    "**/*.{html,json,css,scss,md,mdx}": [
       "prettier -w"
     ]
   }
