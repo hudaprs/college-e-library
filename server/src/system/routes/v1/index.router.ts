@@ -6,7 +6,8 @@ import { PermissionCode } from '@/app/types/permission.type'
 
 export const index = async (req: Request, res: Response) => {
   await ValidationService.hasPermissions(req.currentUser.id, [
-    PermissionCode.VIEW_SYSTEM
+    PermissionCode.VIEW_SYSTEM,
+    PermissionCode.VIEW_SYSTEM_STAFF
   ])
 
   const page = Number(req.query?.page || 1)
@@ -21,7 +22,16 @@ export const index = async (req: Request, res: Response) => {
   )
 
   if (!isSystemAdmin) {
-    filter.requestedBy = req.currentUser.id
+    const isSystemStaff = await ValidationService.hasPermissionSync(
+      req.currentUser.id,
+      [PermissionCode.VIEW_SYSTEM_STAFF]
+    )
+
+    if (isSystemStaff) {
+      filter.staffs = { $in: [req.currentUser.id] }
+    } else {
+      filter.requestedBy = req.currentUser.id
+    }
   }
 
   const systems = await System.find(filter)

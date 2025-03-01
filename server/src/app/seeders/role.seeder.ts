@@ -39,7 +39,7 @@ const roles: RoleBuildAttrs[] = [
     permissions: systemPermissions
   },
   {
-    name: 'Staff',
+    name: 'System Staff',
     permissions: systemPermissions.filter(permission =>
       permission.code.toLowerCase().includes('staff')
     )
