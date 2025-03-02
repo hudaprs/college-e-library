@@ -1,6 +1,6 @@
 import { Button, Card, Form, Input, Typography } from 'antd'
 import { MoonOutlined, SunOutlined } from '@ant-design/icons'
-import { useTheme } from '@/app/providers/UIProvider'
+import { useTheme } from '@/app/providers/UIProvider/hook'
 import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 
