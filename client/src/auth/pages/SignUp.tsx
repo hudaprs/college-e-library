@@ -1,19 +1,44 @@
-import { Button, Card, Form, Input, Typography } from 'antd'
+import { Button, Card, Form, Input, notification, Typography } from 'antd'
 import { MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { useTheme } from '@/app/providers/UIProvider/hook'
 import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import { ErrorViewer } from '@/app/components/common/ErrorViewer'
+import { useAuthSignUpMutation } from '@/app/redux/auth.redux.rtk'
+
+type SignUpForm = {
+  name: string
+  email: string
+  password: string
+  password2: string
+}
 
 export const SignUp = () => {
   const [form] = Form.useForm()
   const { isDarkMode, toggleTheme } = useTheme()
+  const [signUp, { error, isLoading }] = useAuthSignUpMutation()
+  const [notificationApi, contextHolder] = notification.useNotification()
 
-  const onFinish = useCallback((value: unknown) => {
-    console.log(value)
-  }, [])
+  const onFinish = useCallback(
+    async ({ email, name, password }: SignUpForm) => {
+      const response = await signUp({
+        email,
+        name,
+        password
+      }).unwrap()
+
+      notificationApi.success({
+        message: response.message
+      })
+
+      form.resetFields()
+    },
+    [notificationApi, signUp, form]
+  )
 
   return (
     <Card className='w-full max-w-md p-6 rounded-lg dark:bg-gray-900 shadow-lg'>
+      {contextHolder}
       {/* Theme Toggle Button */}
       <div className='flex justify-end'>
         <Button
@@ -44,6 +69,7 @@ export const SignUp = () => {
           <Input
             placeholder='m@example.com'
             className='dark:bg-gray-800 dark:text-white'
+            disabled={isLoading}
           />
         </Form.Item>
 
@@ -60,6 +86,7 @@ export const SignUp = () => {
             type='email'
             className='dark:bg-gray-800 dark:text-white'
             autoComplete='email'
+            disabled={isLoading}
           />
         </Form.Item>
 
@@ -74,6 +101,7 @@ export const SignUp = () => {
           <Input.Password
             className='dark:bg-gray-800 dark:text-white'
             autoComplete='new-password'
+            disabled={isLoading}
           />
         </Form.Item>
 
@@ -108,12 +136,21 @@ export const SignUp = () => {
           <Input.Password
             className='dark:bg-gray-800 dark:text-white'
             autoComplete='new-password'
+            disabled={isLoading}
           />
         </Form.Item>
 
-        <Button type='primary' htmlType='submit' className='mt-4' block>
+        <Button
+          type='primary'
+          htmlType='submit'
+          className='mt-4'
+          loading={isLoading}
+          block
+        >
           Sign Up
         </Button>
+
+        <ErrorViewer error={error} />
 
         <Link to='/auth/sign-in'>
           <Typography.Paragraph className='text-center text-gray-600 dark:text-gray-400 mt-4'>

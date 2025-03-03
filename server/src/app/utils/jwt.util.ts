@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import type { JwtDecode } from '@/app/types/jwt.type'
 import { JwtSignType } from '@/app/types/jwt.type'
+import type mongoose from 'mongoose'
 
 export const generateJwtSignKey = (signType: JwtSignType) => {
   switch (signType) {
@@ -33,7 +34,7 @@ export const generateJwtSignKey = (signType: JwtSignType) => {
 }
 
 export const generateToken = (
-  payload: { id: string },
+  payload: { id: mongoose.Types.ObjectId },
   signType: JwtSignType,
   config?: jwt.SignOptions
 ): string => {

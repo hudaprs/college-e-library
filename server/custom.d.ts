@@ -12,6 +12,7 @@ declare global {
       SMTP_TO_EMAIL: string
       SMTP_TO_PASSWORD: string
       DB_URI: string
+      CLIENT_VERIFY_URL: string
     }
   }
 }

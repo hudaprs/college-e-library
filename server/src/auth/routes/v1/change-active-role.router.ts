@@ -30,9 +30,6 @@ export const changeActiveRole = async (req: Request, res: Response) => {
     })
   }
 
-  console.log('user.roles', user.roles)
-  console.log('roleId', roleId)
-
   if (!user.roles.some(role => roleId.equals(role.role)))
     throw new Error('Role invalid', {
       cause: {

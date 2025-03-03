@@ -35,7 +35,7 @@ export const Router = () => {
       <Route path='sign-up' element={<SignUp />} />
       <Route path='forgot-password' element={<ForgotPassword />} />
       <Route path='reset-password' element={<ResetPassword />} />
-      <Route path='verify-account' element={<VerifyAccount />} />
+      <Route path='verify-account/:token' element={<VerifyAccount />} />
     </Route>
   )
 }

@@ -14,10 +14,10 @@ export class MailService {
     options?: { isMobile?: boolean }
   ) {
     let subject = `E-Library - `
-    let text: string
+    let html: string
     let mappedToken: string
     const isMobile = options?.isMobile
-    let payload: JwtDecode = { id: user.id }
+    let payload: JwtDecode = { id: user.id, otp: '', isMobile: false }
 
     // Check if coming from mobile
     // Generate extra payload
@@ -43,26 +43,24 @@ export class MailService {
     switch (signType) {
       case JwtSignType.VERIFY_USER:
         subject = `${subject} Verify Account ${user.name}`
-        text = `Your verify user ${
-          isMobile ? 'otp' : 'token'
-        } is: ${mappedToken}`
+        html = `Please visit to verify your in this link: <a href="${process.env.CLIENT_VERIFY_URL}/${mappedToken}">Verify Account</a>`
         break
       case JwtSignType.FORGOT_PASSWORD:
         subject = `${subject} Forgot Password ${user.name}`
-        text = `Your forgot password ${
+        html = `Your forgot password ${
           isMobile ? 'otp' : 'token'
         } is: ${mappedToken}`
         break
       default:
         subject = `${subject} - IGNORE THIS EMAIL!`
-        text = `Ignore this email, this is just a test!`
+        html = `Ignore this email, this is just a test!`
     }
 
     // Send mail to specific user
     await new NodemailerService(nodeMailerWrapper.transporter).sendMail({
       to: user.email,
       subject,
-      text
+      html
     })
 
     const tokenFromDatabase = await Token.find({

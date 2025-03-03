@@ -3,14 +3,25 @@ import { MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { useTheme } from '@/app/providers/UIProvider/hook'
 import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuthSignInMutation } from '@/app/redux/auth.redux.rtk'
+import { ErrorViewer } from '@/app/components/common/ErrorViewer'
+
+type SignInForm = {
+  email: string
+  password: string
+}
 
 export const SignIn = () => {
   const [form] = Form.useForm()
   const { isDarkMode, toggleTheme } = useTheme()
+  const [signIn, { error, isLoading }] = useAuthSignInMutation()
 
-  const onFinish = useCallback((value: unknown) => {
-    console.log(value)
-  }, [])
+  const onFinish = useCallback(
+    (value: SignInForm) => {
+      signIn(value)
+    },
+    [signIn]
+  )
 
   return (
     <Card className='w-full max-w-md p-6 rounded-lg dark:bg-gray-900 shadow-lg'>
@@ -48,6 +59,7 @@ export const SignIn = () => {
             placeholder='m@example.com'
             className='dark:bg-gray-800 dark:text-white'
             autoComplete='email'
+            disabled={isLoading}
           />
         </Form.Item>
 
@@ -59,6 +71,7 @@ export const SignIn = () => {
           <Input.Password
             className='dark:bg-gray-800 dark:text-white'
             autoComplete='current-password'
+            disabled={isLoading}
           />
         </Form.Item>
 
@@ -70,9 +83,17 @@ export const SignIn = () => {
           </Link>
         </div>
 
-        <Button type='primary' htmlType='submit' className='mt-4' block>
+        <Button
+          type='primary'
+          htmlType='submit'
+          className='mt-4'
+          loading={isLoading}
+          block
+        >
           Sign In
         </Button>
+
+        <ErrorViewer error={error} />
 
         <Link to='/auth/sign-up'>
           <Typography.Paragraph className='text-center text-gray-600 dark:text-gray-400 mt-4'>
