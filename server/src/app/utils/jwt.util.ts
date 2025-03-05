@@ -8,7 +8,7 @@ export const generateJwtSignKey = (signType: JwtSignType) => {
     case JwtSignType.LOGIN:
       return {
         jwtSignKey: process.env.JWT_SECRET,
-        expiresIn: '30d' as jwt.SignOptions['expiresIn']
+        expiresIn: '5s' as jwt.SignOptions['expiresIn']
       }
     case JwtSignType.REFRESH_TOKEN:
       return {

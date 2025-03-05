@@ -1,18 +1,45 @@
-import { Button, Card, Form, Input, Typography } from 'antd'
+import { Button, Card, Form, Input, Modal, Typography } from 'antd'
 import { MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { useTheme } from '@/app/providers/UIProvider/hook'
 import { useCallback } from 'react'
+import { ErrorViewer } from '@/app/components/common/ErrorViewer'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useAuthVerifyMutation } from '@/app/redux/auth.redux.rtk'
+import { JwtSignType } from '@/app/types/jwt.type'
+
+type ResetPasswordForm = {
+  password: string
+  password2: string
+}
 
 export const ResetPassword = () => {
   const [form] = Form.useForm()
   const { isDarkMode, toggleTheme } = useTheme()
+  const { token } = useParams<{ token: string }>()
+  const [verify, { error, isLoading }] = useAuthVerifyMutation()
+  const [modal, contextHolder] = Modal.useModal()
+  const navigate = useNavigate()
 
-  const onFinish = useCallback((value: unknown) => {
-    console.log(value)
-  }, [])
+  const onFinish = useCallback(
+    async (value: ResetPasswordForm) => {
+      const response = await verify({
+        signType: JwtSignType.FORGOT_PASSWORD,
+        token: token as string,
+        password: value.password
+      }).unwrap()
+
+      modal.success({
+        title: response.message,
+        centered: true,
+        onOk: () => navigate('/auth/sign-in')
+      })
+    },
+    [token, verify, modal, navigate]
+  )
 
   return (
     <Card className='w-full max-w-md p-6 rounded-lg dark:bg-gray-900 shadow-lg'>
+      {contextHolder}
       {/* Theme Toggle Button */}
       <div className='flex justify-end'>
         <Button
@@ -46,6 +73,7 @@ export const ResetPassword = () => {
           <Input.Password
             className='dark:bg-gray-800 dark:text-white'
             autoComplete='new-password'
+            disabled={isLoading}
           />
         </Form.Item>
 
@@ -80,12 +108,21 @@ export const ResetPassword = () => {
           <Input.Password
             className='dark:bg-gray-800 dark:text-white'
             autoComplete='new-password'
+            disabled={isLoading}
           />
         </Form.Item>
 
-        <Button type='primary' htmlType='submit' className='mt-2' block>
+        <Button
+          type='primary'
+          htmlType='submit'
+          className='mt-2'
+          loading={isLoading}
+          block
+        >
           Reset Password
         </Button>
+
+        <ErrorViewer error={error} />
       </Form>
     </Card>
   )

@@ -36,6 +36,11 @@ export const signIn = async (req: Request, res: Response) => {
       JwtSignType.VERIFY_USER,
       user
     )
+
+    res.status(400).json({
+      message:
+        'Your account is not verified yet, please check the email to verify your account'
+    })
   }
 
   const jwtPayload = { id: user.id }

@@ -1,10 +1,18 @@
 import { Button, Card, Form, Input, Typography } from 'antd'
 import { MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { useTheme } from '@/app/providers/UIProvider/hook'
-import { useCallback } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuthSignInMutation } from '@/app/redux/auth.redux.rtk'
+import { useCallback, useMemo } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+  useAuthSignInMutation,
+  useLazyAuthMeQuery
+} from '@/app/redux/auth.redux.rtk'
 import { ErrorViewer } from '@/app/components/common/ErrorViewer'
+import { useAppDispatch } from '@/app/redux'
+import {
+  AUTH_SET_AUTHENTICATED_USER,
+  AUTH_SET_TOKEN
+} from '@/app/redux/auth.redux.slice'
 
 type SignInForm = {
   email: string
@@ -14,13 +22,28 @@ type SignInForm = {
 export const SignIn = () => {
   const [form] = Form.useForm()
   const { isDarkMode, toggleTheme } = useTheme()
-  const [signIn, { error, isLoading }] = useAuthSignInMutation()
+  const [signIn, { error: signInError, isLoading: isSignInLoading }] =
+    useAuthSignInMutation()
+  const [me, { error: meError, isLoading: isMeLoading }] = useLazyAuthMeQuery()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const isLoading = useMemo(() => {
+    return isSignInLoading || isMeLoading
+  }, [isSignInLoading, isMeLoading])
 
   const onFinish = useCallback(
-    (value: SignInForm) => {
-      signIn(value)
+    async (value: SignInForm) => {
+      const signInResponse = await signIn(value).unwrap()
+
+      dispatch(AUTH_SET_TOKEN(signInResponse.results))
+
+      const meResponse = await me().unwrap()
+
+      dispatch(AUTH_SET_AUTHENTICATED_USER(meResponse.results))
+
+      navigate('/dashboard')
     },
-    [signIn]
+    [signIn, dispatch, me, navigate]
   )
 
   return (
@@ -93,7 +116,7 @@ export const SignIn = () => {
           Sign In
         </Button>
 
-        <ErrorViewer error={error} />
+        <ErrorViewer error={signInError || meError} />
 
         <Link to='/auth/sign-up'>
           <Typography.Paragraph className='text-center text-gray-600 dark:text-gray-400 mt-4'>

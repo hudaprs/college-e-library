@@ -5,6 +5,7 @@ import type {
   AuthStateAuthenticatedUser,
   AuthStateToken
 } from '@/app/types/auth.type'
+import type { RootState } from '.'
 
 const initialState: AuthState = {
   tokens: {
@@ -42,5 +43,8 @@ export const authSlice = createSlice({
 
 export const { AUTH_SET_TOKEN, AUTH_SET_AUTHENTICATED_USER, AUTH_CLEAR } =
   authSlice.actions
+
+export const getIsAuthenticated = (state: RootState) =>
+  !!state.auth.tokens.token
 
 export default authSlice.reducer

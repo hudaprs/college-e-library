@@ -11,6 +11,7 @@ import {
   REHYDRATE
 } from 'redux-persist'
 import { emptySplitApi } from './empty.redux.rtk'
+import { useDispatch } from 'react-redux'
 export const listenerMiddleware = createListenerMiddleware()
 
 export const store = configureStore({
@@ -30,3 +31,4 @@ export const persistor = persistStore(store)
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>() // Export a hook that can be reused to resolve types

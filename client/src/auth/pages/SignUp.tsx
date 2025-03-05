@@ -1,8 +1,8 @@
-import { Button, Card, Form, Input, notification, Typography } from 'antd'
+import { Button, Card, Form, Input, Modal, Typography } from 'antd'
 import { MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { useTheme } from '@/app/providers/UIProvider/hook'
 import { useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ErrorViewer } from '@/app/components/common/ErrorViewer'
 import { useAuthSignUpMutation } from '@/app/redux/auth.redux.rtk'
 
@@ -17,7 +17,8 @@ export const SignUp = () => {
   const [form] = Form.useForm()
   const { isDarkMode, toggleTheme } = useTheme()
   const [signUp, { error, isLoading }] = useAuthSignUpMutation()
-  const [notificationApi, contextHolder] = notification.useNotification()
+  const [modal, contextHolder] = Modal.useModal()
+  const navigate = useNavigate()
 
   const onFinish = useCallback(
     async ({ email, name, password }: SignUpForm) => {
@@ -27,13 +28,13 @@ export const SignUp = () => {
         password
       }).unwrap()
 
-      notificationApi.success({
-        message: response.message
+      modal.success({
+        title: response.message,
+        centered: true,
+        onOk: () => navigate('/auth/sign-in')
       })
-
-      form.resetFields()
     },
-    [notificationApi, signUp, form]
+    [modal, signUp, navigate]
   )
 
   return (

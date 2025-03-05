@@ -13,6 +13,7 @@ declare global {
       SMTP_TO_PASSWORD: string
       DB_URI: string
       CLIENT_VERIFY_URL: string
+      CLIENT_RESET_PASSWORD_URL: string
     }
   }
 }

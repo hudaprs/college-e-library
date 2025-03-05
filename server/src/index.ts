@@ -17,6 +17,10 @@ const start = async () => {
   if (!process.env.SMTP_TO_PASSWORD)
     throw new Error('SMTP_TO_PASSWORD must be defined')
   if (!process.env.DB_URI) throw new Error('DB_URI must be defined')
+  if (!process.env.CLIENT_VERIFY_URL)
+    throw new Error('CLIENT_VERIFY_URL must be defined')
+  if (!process.env.CLIENT_RESET_PASSWORD_URL)
+    throw new Error('CLIENT_RESET_PASSWORD_URL must be defined')
 
   try {
     await DatabaseService.connect()

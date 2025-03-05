@@ -1,7 +1,8 @@
 import { SmileOutlined } from '@ant-design/icons'
 import { Result, Spin } from 'antd'
+import { memo } from 'react'
 
-export const PageLoader = () => (
+export const PageLoader = memo(() => (
   <div className='bg-gray-50 dark:bg-gray-900 flex items-center justify-center min-h-screen'>
     <Result
       icon={<SmileOutlined />}
@@ -9,4 +10,4 @@ export const PageLoader = () => (
       subTitle={<Spin size='large' />}
     />
   </div>
-)
+))

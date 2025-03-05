@@ -47,9 +47,7 @@ export class MailService {
         break
       case JwtSignType.FORGOT_PASSWORD:
         subject = `${subject} Forgot Password ${user.name}`
-        html = `Your forgot password ${
-          isMobile ? 'otp' : 'token'
-        } is: ${mappedToken}`
+        html = `Please visit to reset your password in this link: <a href="${process.env.CLIENT_RESET_PASSWORD_URL}/${mappedToken}">Reset Password</a>`
         break
       default:
         subject = `${subject} - IGNORE THIS EMAIL!`
