@@ -1,5 +1,5 @@
 import { memo, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Router as AllRouter } from '@/app/routes/Router'
 import { Router as AuthRouter } from '@/auth/routes/Router'
 import { Router as DashboardRouter } from '@/dashboard/routes/Router'
@@ -11,10 +11,9 @@ export const AppRouter = memo(() => {
     <BrowserRouter>
       <Suspense fallback={<PageLoader />}>
         <Routes>
+          <Route path='/' element={<Navigate to='/dashboard' replace />} />
           {AuthRouter()}
-
           <Route element={<AuthenticatedLayout />}>{DashboardRouter()}</Route>
-
           {AllRouter()}
         </Routes>
       </Suspense>
