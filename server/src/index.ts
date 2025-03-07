@@ -27,7 +27,7 @@ try {
   logger.error(err)
 }
 
-server.listen(process.env.PORT, () => {
+server.listen(process.env.PORT || 3000, () => {
   logger.info(`Listening on port ${process.env.PORT}`)
 })
 
