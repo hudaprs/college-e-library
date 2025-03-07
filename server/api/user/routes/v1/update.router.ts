@@ -4,6 +4,7 @@ import { ValidationService } from '@/app/services/validation.service'
 import { updateSchema } from '@/user/schemas/v1/update.schema'
 import { Role } from '@/app/models/role.model'
 import { PermissionCode } from '@/app/types/permission.type'
+import mongoose from 'mongoose'
 
 export const update = async (req: Request, res: Response) => {
   await ValidationService.hasPermissions(req.currentUser.id, [
@@ -75,7 +76,7 @@ export const update = async (req: Request, res: Response) => {
 
       return {
         isActive: existingRole?.isActive || false,
-        role: roleId
+        role: new mongoose.Types.ObjectId(roleId)
       }
     })
   }
