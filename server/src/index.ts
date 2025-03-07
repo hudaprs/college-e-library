@@ -30,5 +30,3 @@ if (!process.env.CLIENT_RESET_PASSWORD_URL)
 server.listen(process.env.PORT || 3000, () => {
   logger.info(`Listening on port ${process.env.PORT}`)
 })
-
-export default server
