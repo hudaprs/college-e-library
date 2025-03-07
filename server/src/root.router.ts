@@ -1,3 +1,4 @@
+import type { Request, Response } from 'express'
 import { Router } from 'express'
 import { authRouterV1 } from '@/auth/routes/v1.router'
 import { userRouterV1 } from '@/user/routes/v1.router'
@@ -7,6 +8,9 @@ import { systemRouterV1 } from '@/system/routes/v1.router'
 
 const rootRouter = Router()
 
+rootRouter.get('/', (req: Request, res: Response) => {
+  res.status(200).json({ message: 'E-Library Project' })
+})
 rootRouter.use('/api/v1/auth', authRouterV1)
 rootRouter.use('/api/v1/users', userRouterV1)
 rootRouter.use('/api/v1/roles', roleRouterV1)
