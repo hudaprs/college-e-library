@@ -1,5 +1,6 @@
 {
   "version": 2,
   "builds": [],
-  "routes": [{ "src": "/(.*)", "dest": "/api/index.ts" }]
+  "routes": [{ "src": "/(.*)", "dest": "/api/index.ts" }],
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
