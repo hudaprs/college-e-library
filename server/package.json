@@ -7,7 +7,9 @@
   "scripts": {
     "start": "bun ./api/index.ts",
     "dev": "bun --watch ./api/index.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "vercel-build": "bun build ./api/index.ts",
+    "vercel-start": "bun ./api/index.ts"
   },
   "keywords": [],
   "author": "",
