@@ -4,8 +4,8 @@ dotenv.config({
 })
 import mongoose from 'mongoose'
 import { System, type SystemBuildAttrs } from '@/app/models/system.model'
-import { User } from '@/app//models/user.model'
-import { SystemApprovalStatus } from '../types/system.type'
+import { User } from '@/app/models/user.model'
+import { SystemApprovalStatus } from '@/app/types/system.type'
 
 mongoose
   .connect(process.env.DB_URI)

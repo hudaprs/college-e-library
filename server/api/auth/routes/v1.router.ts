@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import { signUp } from '@/auth/routes/v1/sign-up.router'
-import { verify } from '@/auth/routes/v1/verify.router'
-import { signIn } from '@/auth/routes/v1/sign-in.router'
-import { me } from '@/auth/routes/v1/me.router'
-import { forgotPassword } from '@/auth/routes/v1/forgot-password.router'
-import { refreshToken } from '@/auth/routes/v1/refresh-token.router'
-import { changeActiveRole } from '@/auth/routes/v1/change-active-role.router'
+import { signUp } from './v1/sign-up.router'
+import { verify } from './v1/verify.router'
+import { signIn } from './v1/sign-in.router'
+import { me } from './v1/me.router'
+import { forgotPassword } from './v1/forgot-password.router'
+import { refreshToken } from './v1/refresh-token.router'
+import { changeActiveRole } from './v1/change-active-role.router'
 import { ValidationService } from '@/app/services/validation.service'
 
 const authRouterV1 = Router()

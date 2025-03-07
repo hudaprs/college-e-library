@@ -5,7 +5,7 @@ dotenv.config({
 import mongoose from 'mongoose'
 import { Permission } from '@/app/models/permission.model'
 import { Role, type RoleBuildAttrs } from '@/app/models/role.model'
-import { PermissionCode, PermissionGroup } from '../types/permission.type'
+import { PermissionCode, PermissionGroup } from '@/app/types/permission.type'
 
 mongoose
   .connect(process.env.DB_URI)

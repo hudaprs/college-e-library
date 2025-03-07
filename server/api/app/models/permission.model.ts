@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import { PermissionGroup } from '../types/permission.type'
-import { PermissionCode } from '../types/permission.type'
+import { PermissionGroup } from '@/app/types/permission.type'
+import { PermissionCode } from '@/app/types/permission.type'
 
 export interface PermissionBuildAttrs {
   code: PermissionCode

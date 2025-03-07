@@ -4,6 +4,7 @@ import { ValidationService } from '@/app/services/validation.service'
 import { storeSchema } from '@/user/schemas/v1/store.schema'
 import { Role } from '@/app/models/role.model'
 import { PermissionCode } from '@/app/types/permission.type'
+import mongoose from 'mongoose'
 
 export const store = async (req: Request, res: Response) => {
   await ValidationService.hasPermissions(req.currentUser.id, [
@@ -43,7 +44,10 @@ export const store = async (req: Request, res: Response) => {
     name: body.name,
     email,
     password: body.password,
-    roles: body.roles.map(role => ({ role: role, isActive: false }))
+    roles: body.roles.map(role => ({
+      role: new mongoose.Types.ObjectId(role),
+      isActive: false
+    }))
   }).save()
 
   const fullUser = await user.populate('roles.role')

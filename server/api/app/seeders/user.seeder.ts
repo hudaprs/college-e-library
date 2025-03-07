@@ -4,7 +4,7 @@ dotenv.config({
 })
 import mongoose from 'mongoose'
 import { User, type UserBuildAttrs } from '@/app/models/user.model'
-import { Role } from '@/app//models/role.model'
+import { Role } from '@/app/models/role.model'
 import { hashPassword } from '@/app/utils/common.util'
 
 mongoose

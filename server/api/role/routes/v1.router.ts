@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { index } from '@/role/routes/v1/index.router'
-import { store } from '@/role/routes/v1/store.router'
-import { show } from '@/role/routes/v1/show.router'
-import { update } from '@/role/routes/v1/update.router'
-import { destroy } from '@/role/routes/v1/destroy.router'
+import { index } from './v1/index.router'
+import { store } from './v1/store.router'
+import { show } from './v1/show.router'
+import { update } from './v1/update.router'
+import { destroy } from './v1/destroy.router'
 import { ValidationService } from '@/app/services/validation.service'
 
 const roleRouterV1 = Router()
