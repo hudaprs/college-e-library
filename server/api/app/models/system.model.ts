@@ -3,8 +3,8 @@ import {
   type SystemApprovalHistory,
   SystemApprovalStatus,
   type System as TSystem
-} from '@/app/types/system.type'
-import type { User } from '@/app/types/user.type'
+} from '../types/system.type'
+import type { User } from '../types/user.type'
 
 export interface SystemBuildAttrs {
   name: string

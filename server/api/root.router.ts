@@ -1,10 +1,10 @@
 import type { Request, Response } from 'express'
 import { Router } from 'express'
-import { authRouterV1 } from '@/auth/routes/v1.router'
-import { userRouterV1 } from '@/user/routes/v1.router'
-import { roleRouterV1 } from '@/role/routes/v1.router'
-import { permissionRouterV1 } from '@/permission/routes/v1.router'
-import { systemRouterV1 } from '@/system/routes/v1.router'
+import { authRouterV1 } from './auth/routes/v1.router'
+import { userRouterV1 } from './user/routes/v1.router'
+import { roleRouterV1 } from './role/routes/v1.router'
+import { permissionRouterV1 } from './permission/routes/v1.router'
+import { systemRouterV1 } from './system/routes/v1.router'
 
 const rootRouter = Router()
 

@@ -3,8 +3,8 @@ import {
   type Permission,
   PermissionCode,
   PermissionGroup
-} from '@/app/types/permission.type'
-import type { RolePermission, Role as TRole } from '@/app/types/role.type'
+} from '../types/permission.type'
+import type { RolePermission, Role as TRole } from '../types/role.type'
 
 export interface RoleBuildAttrs {
   name: string
