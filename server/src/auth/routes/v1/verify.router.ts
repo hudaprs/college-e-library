@@ -1,10 +1,10 @@
-import { verifySchema } from '@/auth/schemas/v1/verify.schema'
-import { ValidationService } from '@/app/services/validation.service'
+import { verifySchema } from '../../schemas/v1/verify.schema'
+import { ValidationService } from '../../../app/services/validation.service'
 import type { Request, Response } from 'express'
-import { Token } from '@/app/models/token.model'
-import { verify as jwtVerify } from '@/app/utils/jwt.util'
-import { JwtSignType } from '@/app/types/jwt.type'
-import { User } from '@/app/models/user.model'
+import { Token } from '../../../app/models/token.model'
+import { verify as jwtVerify } from '../../../app/utils/jwt.util'
+import { JwtSignType } from '../../../app/types/jwt.type'
+import { User } from '../../../app/models/user.model'
 
 export const verify = async (req: Request, res: Response) => {
   const body = await ValidationService.validateBodyRequest(

@@ -1,9 +1,9 @@
-import { ValidationService } from '@/app/services/validation.service'
+import { ValidationService } from '../../../app/services/validation.service'
 import type { Request, Response } from 'express'
-import { signUpSchema } from '@/auth/schemas/v1/sign-up.schema'
-import { User } from '@/app/models/user.model'
-import { MailService } from '@/app/services/mail.service'
-import { JwtSignType } from '@/app/types/jwt.type'
+import { signUpSchema } from '../../schemas/v1/sign-up.schema'
+import { User } from '../../../app/models/user.model'
+import { MailService } from '../../../app/services/mail.service'
+import { JwtSignType } from '../../../app/types/jwt.type'
 
 export const signUp = async (req: Request, res: Response) => {
   const body = await ValidationService.validateBodyRequest(

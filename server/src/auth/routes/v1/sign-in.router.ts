@@ -1,11 +1,11 @@
-import { ValidationService } from '@/app/services/validation.service'
+import { ValidationService } from '../../../app/services/validation.service'
 import type { Request, Response } from 'express'
-import { User } from '@/app/models/user.model'
-import { MailService } from '@/app/services/mail.service'
-import { JwtSignType } from '@/app/types/jwt.type'
-import { signInSchema } from '@/auth/schemas/v1/sign-in.schema'
+import { User } from '../../../app/models/user.model'
+import { MailService } from '../../../app/services/mail.service'
+import { JwtSignType } from '../../../app/types/jwt.type'
+import { signInSchema } from '../../schemas/v1/sign-in.schema'
 import bcrypt from 'bcryptjs'
-import { generateToken } from '@/app/utils/jwt.util'
+import { generateToken } from '../../../app/utils/jwt.util'
 
 export const signIn = async (req: Request, res: Response) => {
   const body = await ValidationService.validateBodyRequest(

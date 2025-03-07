@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express'
-import { User, type UserBuildAttrs } from '@/app/models/user.model'
-import { ValidationService } from '@/app/services/validation.service'
-import { updateSchema } from '@/user/schemas/v1/update.schema'
-import { Role } from '@/app/models/role.model'
-import { PermissionCode } from '@/app/types/permission.type'
+import { User, type UserBuildAttrs } from '../../../app/models/user.model'
+import { ValidationService } from '../../../app/services/validation.service'
+import { updateSchema } from '../../schemas/v1/update.schema'
+import { Role } from '../../../app/models/role.model'
+import { PermissionCode } from '../../../app/types/permission.type'
 import mongoose from 'mongoose'
 
 export const update = async (req: Request, res: Response) => {

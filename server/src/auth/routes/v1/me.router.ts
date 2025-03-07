@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { User } from '@/app/models/user.model'
+import { User } from '../../../app/models/user.model'
 
 export const me = async (req: Request, res: Response) => {
   if (!req?.currentUser)

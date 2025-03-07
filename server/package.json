@@ -2,14 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "./api/index.ts",
+  "main": "./src/index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun ./api/index.ts",
-    "dev": "bun --watch ./api/index.ts",
+    "start": "bun ./src/index.ts",
+    "dev": "bun --watch ./src/index.ts",
     "prepare": "husky",
-    "vercel-build": "bun build ./api/index.ts --target=node",
-    "vercel-start": "bun ./api/index.ts"
+    "vercel-build": "bun build ./src/index.ts --target=node",
+    "vercel-start": "bun ./src/index.ts"
   },
   "keywords": [],
   "author": "",
